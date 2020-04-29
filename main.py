@@ -18,16 +18,16 @@ def success():
     if request.method == 'POST':  
         meta_f = request.files['meta_file']
         assert meta_f.filename.endswith('tsv')  
-        meta_f.save(meta_f.filename)  
-        types, names = get_meta_from_tsv(meta_f.filename)
+        meta_f.save("temp_" + meta_f.filename)  
+        types, names = get_meta_from_tsv("temp_" + meta_f.filename)
         name_dict = defaultdict(list)
         for i in range(types.shape[0]):
             name_dict[types[i]].append(names[i])
 
         emb_f = request.files['emb_file']  
         assert emb_f.filename.endswith('tsv')
-        emb_f.save(emb_f.filename)  
-        embeddings = get_embeddings_from_tsv(emb_f.filename)
+        emb_f.save("temp_" + emb_f.filename)  
+        embeddings = get_embeddings_from_tsv("temp_" + emb_f.filename)
 
         query_machine.update_data(embeddings, names, types)
         print(list(set(types)))
@@ -38,8 +38,8 @@ def search():
     src_type = request.args.get('src_type')
     src_name = request.args.get('src_name')
     target_type = request.args.get('target_type')
-    print(src_type, src_name, target_type)
-    k = int(request.args.get('k', 5))
+    k = int(request.args.get('num_k',10))
+    print(src_type, src_name, target_type, k)
     results = query_machine.search(src_type, src_name, target_type,k)
     print(results)
     return jsonify(results)
