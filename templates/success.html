@@ -1,0 +1,56 @@
+<html>
+
+<head>
+    <title>success</title>
+    <!-- <link rel="stylesheet" href="/static/awesomplete.css"> -->
+
+</head>
+
+<body>
+    <p>File of vectors {{emb_name}} File of metadata {{meta_name}}</p>
+    <!-- <input class="awesomplete" list="mylist" /> -->
+    <div id='form'>
+        Query type <select id="query_type" name="query_type" onchange="myFunction()">
+            {% for type in types %}
+            <option value={{type}}>{{type}}</option>
+            {% endfor %}
+        </select>
+        <input type="text" name="term" list="mylist" id="src_name" />
+        <datalist id="mylist">
+            {% for name in name_dict[types[0]] %}
+            <option>{{name}}</option>
+            {% endfor %}
+        </datalist>
+        Target type <select id="target_type" name="target_type">
+            {% for type in types %}
+            <option value={{type}}>{{type}}</option>
+            {% endfor %}
+        </select>
+        <button id="search">Search</button>
+    </div>
+    Results <div id='result'></div>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="/static/search.js"></script>
+    <!-- <script src="/static/autocomplete.js"></script> -->
+    <script>
+        function myFunction() {
+            var query_type = document.getElementById("query_type").value;
+            // console.log(query_type)
+            var mylist = document.getElementById("mylist");
+            var namedict = '{{ name_dict | tojson }}';
+            var a = JSON.parse(namedict);
+            var namelist = a[query_type];
+            console.log(namelist);
+            console.log(namedict);
+
+            var x = '';
+            for (i = 0; i < namelist.length; i++) {
+                // console.log(namelist[i])
+                x += ('<option>' + namelist[i]+ '</option>');
+            }
+            mylist.innerHTML = x;
+        }
+    </script>
+</body>
+
+</html>
