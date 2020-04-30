@@ -160,7 +160,7 @@ h4 {
 
 .item-search {
     display: grid;
-    grid-template-columns: auto 140px;
+    grid-template-columns: 220px auto;
     grid-gap: 20px;
     /* border: 1px solid #dddddd; */
     margin-bottom: 10px;
@@ -194,18 +194,26 @@ select {
 }
 
 .input-item-search {
-    padding: 10px 5px;
+    padding: 4px 5px;
+    height: 100%;
+    font-size: 1.0em;
     width: 285px;
     border: none;
 }
 
 .text-item-search {
-
+  display: grid;
+  grid-template-columns: auto 140px;
 }
 
 label {
     margin-right: 15px;
+    width: 60px;
+    border-right: 1px solid #dddddd;
     font-size: 0.95em;
+    display: flex;
+    align-items: center;
+    /* justify-content: center; */
 }
 
 #result-component {
@@ -223,7 +231,7 @@ label {
 #loading {
     /* position: absolute; */
     width: 30px;
-    margin: 130px;
+    margin: 180px;
     /* top: 50px; */
     /* left: 50px; */
     /* transform: translateX(-50%); */
@@ -247,13 +255,14 @@ input::-webkit-calendar-picker-indicator {
     border-bottom: none;
   }
 
-  .item-search .text-item-search, .item-search .select-item-search {
+  .item-search .text-item-search {
     /* padding: 10px 10px; */
     /* display: flex; */
     /* align-items: center; */
     /* justify-content: center; */
     padding-bottom: 2px;
     border-bottom: 1px solid #dddddd;
+    padding: 10px 0;
 }
 
 

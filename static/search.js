@@ -9,8 +9,8 @@ $(function () {
         $.ajax({
             url: '/api/search?src_type=' + document.getElementById('query_type').value +
              '&src_name=' + document.getElementById('src_name').value + 
-             '&target_type=' + document.getElementById('target_type').value + 
-             '&k=' + document.getElementById('num_return').value,
+             '&target_type=' + document.getElementById('target_type').value,
+            //  '&k=10' + document.getElementById('num_return').value,
             success: function (data) {
                 console.log(data)
                 $('#result').html('');

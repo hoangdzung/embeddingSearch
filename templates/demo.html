@@ -1,25 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Embedding Search</title>
     <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
-    
+
     <!-- <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet"> -->
-<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
-    
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 
-<style>
+    <style>
         /* .container {
             background: url("{{ url_for('static', filename='images/bg-img-01.jpg') }}") center center/cover no-repeat;
         } */
     </style>
 </head>
+
 <body>
-    <h2 style="text-align: center; color: #DB1430;" >
+    <h2 style="text-align: center; color: #DB1430;">
         <a href="/">
             Embedding Search
         </a>
@@ -27,245 +29,128 @@
     <div class="container">
         <div class="component" id="upload-component">
             <h4 class="section-font">Datasets</h4>
-            <form action = "/success" method = "post" enctype="multipart/form-data">  
-            <div id="body-upload-component">
-                <div class="item-upload">
+            <form action="/success" method="post" enctype="multipart/form-data">
+                <div id="body-upload-component">
+                    <div class="item-upload">
                         <div>Vectors</div>
                         <button type="button" onclick="document.getElementById('emb_file').click();">
                             {{emb_name}}
                         </button>
-                        <input type="file" name="emb_file" id="emb_file" style="display: none;" />  
-                </div> 
-                <div class="item-upload">
-                    <div>Metadata</div>
+                        <input type="file" name="emb_file" id="emb_file" style="display: none;" />
+                    </div>
+                    <div class="item-upload">
+                        <div>Metadata</div>
                         <button type="button" onclick="document.getElementById('meta_file').click();">
                             {{meta_name}}
-                        </button> 
-                        <input type="file" name="meta_file" id="meta_file" style="display: none;" /> 
+                        </button>
+                        <input type="file" name="meta_file" id="meta_file" style="display: none;" />
+                    </div>
                 </div>
-            </div>
-            <div>
-                <input type="submit" class="btn" value="Upload">
-            </div>
+                <div>
+                    <input type="submit" class="btn" value="Upload">
+                </div>
             </form>
         </div>
         <div id="search-container" class="component">
             <div id="search-component">
                 <div class="item-search">
                     <div class="text-item-search section-font">
-                        <label>Query : </label>
-                        <input type="text" list="mylist" class="input-item-search" spellcheck="false" id="src_name" name="search">
+                        <label>Query</label>
+                        <div class="select-item-search">
+                            <div class="select_mate" data-mate-select="active">
+                                <select name="" onchange="suggestQuery()" onclick="return false;" id="query_type">
+                                    {% for type in types %}
+                                    <option value={{type}}>{{type}}</option>
+                                    {% endfor %}
+                                </select>
+                                <p class="selecionado_opcion" onclick="open_select(this)"></p><span
+                                    onclick="open_select(this)" class="icon_select_mate"><svg fill="#000000" height="24"
+                                        viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M7.41 7.84L12 12.42l4.59-4.58L18 9.25l-6 6-6-6z" />
+                                        <path d="M0-.75h24v24H0z" fill="none" />
+                                    </svg></span>
+                                <div class="cont_list_select_mate">
+                                    <ul class="cont_select_int"> </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="padding-bottom: 2px; border-bottom: 1px solid #dddddd;">
+                        <input type="text" list="mylist" class="input-item-search" spellcheck="false" id="src_name"
+                        name="search">
                         <datalist id="mylist">
                             {% for name in name_dict[types[0]] %}
                             <option>{{name}}</option>
                             {% endfor %}
                         </datalist>
                     </div>
-                    <div class="select-item-search">
-                        <!-- <select id="query_type" class="mdb-select md-form colorful-select dropdown-primary">
-                            {% for type in types %}
-                            <option value={{type}}>{{type}}</option>
-                            {% endfor %}
-                        </select> -->
-                        <div class="select_mate" data-mate-select="active" >
-                            <select name="" onchange="" onclick="return false;" id="query_type">
-                                {% for type in types %}
-                                <option value={{type}}>{{type}}</option>
-                                {% endfor %}
-                              </select>
-                            <p class="selecionado_opcion"  onclick="open_select(this)" ></p><span onclick="open_select(this)" class="icon_select_mate" ><svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M7.41 7.84L12 12.42l4.59-4.58L18 9.25l-6 6-6-6z"/>
-                                <path d="M0-.75h24v24H0z" fill="none"/>
-                            </svg></span>
-                            <div class="cont_list_select_mate">
-                              <ul class="cont_select_int">  </ul> 
-                            </div>
-                              </div>
-                        </div>
                 </div>
                 <div class="item-search">
                     <div class="text-item-search section-font">
-                        <label>Target : </label>
-                        <input id="num_return" type="text" class="input-item-search" name="search">
-                    </div>
-                    <div class="select-item-search">
-                        <!-- <select id="target_type">
-                            {% for type in types %}
-                            <option value={{type}}>{{type}}</option>
-                            {% endfor %}
-                        </select> -->
-                        <div class="select_mate" data-mate-select="active" >
+                        <label>Target</label>
+                        <div class="select_mate" data-mate-select="active">
                             <select name="" onchange="" onclick="return false;" id="target_type">
                                 {% for type in types %}
                                 <option value={{type}}>{{type}}</option>
                                 {% endfor %}
-                              </select>
-                            <p class="selecionado_opcion"  onclick="open_select(this)" ></p><span onclick="open_select(this)" class="icon_select_mate" ><svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M7.41 7.84L12 12.42l4.59-4.58L18 9.25l-6 6-6-6z"/>
-                                <path d="M0-.75h24v24H0z" fill="none"/>
-                            </svg></span>
+                            </select>
+                            <p class="selecionado_opcion" onclick="open_select(this)"></p><span
+                                onclick="open_select(this)" class="icon_select_mate"><svg fill="#000000" height="24"
+                                    viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M7.41 7.84L12 12.42l4.59-4.58L18 9.25l-6 6-6-6z" />
+                                    <path d="M0-.75h24v24H0z" fill="none" />
+                                </svg></span>
                             <div class="cont_list_select_mate">
-                              <ul class="cont_select_int">  </ul> 
+                                <ul class="cont_select_int"> </ul>
                             </div>
-                              </div>
                         </div>
-                </div>
-                <div>
-                    <button class="btn" id="search" style="width: 100%;">Search </button>
+                    </div>
+                    <div>
+                        <div style="margin-top: 10px;">
+                            <button class="btn" id="search" style="width: 100%;height: 100%;margin: 0;">Search </button>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div id="result-component">
                 <img id="loading" src="https://media.giphy.com/media/s4KqhlPU9Ypnq/giphy.gif">
                 <div id="result">
-                <h3 style="text-align: center;color: #999; margin-top: 50%;font-weight: 400;">No results</h3>
+                    <h3 style="text-align: center;color: #999; margin-top: 50%;font-weight: 400;">No results</h3>
                 </div>
             </div>
-    </div>
-    <!-- </div> -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-    <script type="text/javascript">
-    	$('input[type=file]').change(function(e) {
-    		var fileName = e.target.files[0].name;
-    		$(this).parent().find('button').text(fileName);
-        })
-    </script>
-    <script src="/static/search.js"></script>
-    <script>
-        function myFunction() {
-            var query_type = document.getElementById("query_type").value;
-            // console.log(query_type)
-            var mylist = document.getElementById("mylist");
-            var namedict = '{{ name_dict | tojson }}';
-            var a = JSON.parse(namedict);
-            var namelist = a[query_type];
-            console.log(namelist);
-            console.log(namedict);
+        </div>
+        <!-- </div> -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+        <script type="text/javascript">
+            $('input[type=file]').change(function (e) {
+                var fileName = e.target.files[0].name;
+                $(this).parent().find('button').text(fileName);
+            })
+        </script>
+        <script src="/static/search.js"></script>
+        <script>
+            function suggestQuery() {
+                var query_type = document.getElementById("query_type").value;
+                // console.log(query_type)
+                var mylist = document.getElementById("mylist");
+                var namedict = '{{ name_dict | tojson }}';
+                var a = JSON.parse(namedict);
+                var namelist = a[query_type];
+                // console.log(namelist);
+                // console.log(namedict);
 
-            var x = '';
-            for (i = 0; i < namelist.length; i++) {
-                // console.log(namelist[i])
-                x += ('<option>' + namelist[i]+ '</option>');
+                var x = '';
+                for (i = 0; i < namelist.length; i++) {
+                    // console.log(namelist[i])
+                    x += ('<option>' + namelist[i] + '</option>');
+                }
+                mylist.innerHTML = x;
             }
-            mylist.innerHTML = x;
-        }
-    </script>
+        </script>
+        <script src="/static/dropdown.js"></script>
 
-    <script>
-        window.onload = function(){
-  crear_select();
-}
-
-function isMobileDevice() {
-    return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
-};
-
- 
-var li = new Array();
-function crear_select(){
-var div_cont_select = document.querySelectorAll("[data-mate-select='active']");
-var select_ = '';
-for (var e = 0; e < div_cont_select.length; e++) {
-div_cont_select[e].setAttribute('data-indx-select',e);
-div_cont_select[e].setAttribute('data-selec-open','false');
-var ul_cont = document.querySelectorAll("[data-indx-select='"+e+"'] > .cont_list_select_mate > ul");
- select_ = document.querySelectorAll("[data-indx-select='"+e+"'] >select")[0];
- if (isMobileDevice()) { 
-select_.addEventListener('change', function () {
- _select_option(select_.selectedIndex,e);
-});
- }
-var select_optiones = select_.options;
-document.querySelectorAll("[data-indx-select='"+e+"']  > .selecionado_opcion ")[0].setAttribute('data-n-select',e);
-document.querySelectorAll("[data-indx-select='"+e+"']  > .icon_select_mate ")[0].setAttribute('data-n-select',e);
-for (var i = 0; i < select_optiones.length; i++) {
-li[i] = document.createElement('li');
-if (select_optiones[i].selected == true || select_.value == select_optiones[i].innerHTML ) {
-li[i].className = 'active';
-document.querySelector("[data-indx-select='"+e+"']  > .selecionado_opcion ").innerHTML = select_optiones[i].innerHTML;
-};
-li[i].setAttribute('data-index',i);
-li[i].setAttribute('data-selec-index',e);
-// funcion click al selecionar 
-li[i].addEventListener( 'click', function(){  _select_option(this.getAttribute('data-index'),this.getAttribute('data-selec-index')); });
-
-li[i].innerHTML = select_optiones[i].innerHTML;
-ul_cont[0].appendChild(li[i]);
-
-    }; // Fin For select_optiones
-  }; // fin for divs_cont_select
-} // Fin Function 
-
-
-
-var cont_slc = 0;
-function open_select(idx){
-var idx1 =  idx.getAttribute('data-n-select');
-  var ul_cont_li = document.querySelectorAll("[data-indx-select='"+idx1+"'] .cont_select_int > li");
-var hg = 0;
-var slect_open = document.querySelectorAll("[data-indx-select='"+idx1+"']")[0].getAttribute('data-selec-open');
-var slect_element_open = document.querySelectorAll("[data-indx-select='"+idx1+"'] select")[0];
- if (isMobileDevice()) { 
-  if (window.document.createEvent) { // All
-  var evt = window.document.createEvent("MouseEvents");
-  evt.initMouseEvent("mousedown", false, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-	slect_element_open.dispatchEvent(evt);
-} else if (slect_element_open.fireEvent) { // IE
-  slect_element_open.fireEvent("onmousedown");
-}else {
-  slect_element_open.click();
-}
-}else {
-
-  
-  for (var i = 0; i < ul_cont_li.length; i++) {
-hg += ul_cont_li[i].offsetHeight;
-}; 
- if (slect_open == 'false') {  
- document.querySelectorAll("[data-indx-select='"+idx1+"']")[0].setAttribute('data-selec-open','true');
- document.querySelectorAll("[data-indx-select='"+idx1+"'] > .cont_list_select_mate > ul")[0].style.height = hg+"px";
- document.querySelectorAll("[data-indx-select='"+idx1+"'] > .icon_select_mate")[0].style.transform = 'rotate(180deg)';
-}else{
- document.querySelectorAll("[data-indx-select='"+idx1+"']")[0].setAttribute('data-selec-open','false');
- document.querySelectorAll("[data-indx-select='"+idx1+"'] > .icon_select_mate")[0].style.transform = 'rotate(0deg)';
- document.querySelectorAll("[data-indx-select='"+idx1+"'] > .cont_list_select_mate > ul")[0].style.height = "0px";
- }
-}
-
-} // fin function open_select
-
-function salir_select(indx){
-var select_ = document.querySelectorAll("[data-indx-select='"+indx+"'] > select")[0];
- document.querySelectorAll("[data-indx-select='"+indx+"'] > .cont_list_select_mate > ul")[0].style.height = "0px";
-document.querySelector("[data-indx-select='"+indx+"'] > .icon_select_mate").style.transform = 'rotate(0deg)';
- document.querySelectorAll("[data-indx-select='"+indx+"']")[0].setAttribute('data-selec-open','false');
-}
-
-
-function _select_option(indx,selc){
- if (isMobileDevice()) { 
-selc = selc -1;
-}
-    var select_ = document.querySelectorAll("[data-indx-select='"+selc+"'] > select")[0];
-
-  var li_s = document.querySelectorAll("[data-indx-select='"+selc+"'] .cont_select_int > li");
-  var p_act = document.querySelectorAll("[data-indx-select='"+selc+"'] > .selecionado_opcion")[0].innerHTML = li_s[indx].innerHTML;
-var select_optiones = document.querySelectorAll("[data-indx-select='"+selc+"'] > select > option");
-for (var i = 0; i < li_s.length; i++) {
-if (li_s[i].className == 'active') {
-li_s[i].className = '';
-};
-li_s[indx].className = 'active';
-
-};
-select_optiones[indx].selected = true;
-  select_.selectedIndex = indx;
-  select_.onchange();
-  salir_select(selc); 
-}
-
-
-    </script>
 </body>
+
 </html>

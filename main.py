@@ -39,7 +39,7 @@ def search():
     src_type = request.args.get('src_type')
     src_name = request.args.get('src_name')
     target_type = request.args.get('target_type')
-    k = int(request.args.get('num_k',10))
+    k = 10 #int(request.args.get('num_k',10))
     print(src_type, src_name, target_type, k)
     results = query_machine.search(src_type, src_name, target_type,k)
     print(results)
