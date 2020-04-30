@@ -218,20 +218,23 @@ label {
 
 #result-component {
     margin: 10px;
-    padding: 0px 180px;
+    padding: 0px 70px;
 }
 
 .item-keyword {
     margin-bottom: 10px;
-    margin-left: 65px;
+    margin-left: 220px;
     display: grid;
     grid-template-columns: 20px auto;
 }
 
 #loading {
     /* position: absolute; */
-    width: 30px;
-    margin: 180px;
+    /* width: 30px; */
+    /* margin: 180px; */
+    /* padding: 180px; */
+    margin-top: 20%;
+    text-align: center;
     /* top: 50px; */
     /* left: 50px; */
     /* transform: translateX(-50%); */

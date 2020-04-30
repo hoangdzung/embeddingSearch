@@ -16,7 +16,7 @@ $(function () {
                 console.log(data)
                 $('#result').html('');
                 if(data.length == 0)
-                    $('#result').append('<h3 style="text-align: center;color: #999; margin-top: 50%;font-weight: 400;">No results</h3>');
+                    $('#result').append('<h3 style="text-align: center;color: #999; margin-top: 20%;font-weight: 400;">No results</h3>');
                 else
                     $('#result').append(`<div style="font-size: 0.95em; text-align: center;margin: 30px 0 20px 0;">
                     NEAREST KEYWORDS
