@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Embedding Search</title>
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+    
+    <!-- <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet"> -->
+<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+    
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+
+<style>
+        /* .container {
+            background: url("{{ url_for('static', filename='images/bg-img-01.jpg') }}") center center/cover no-repeat;
+        } */
+    </style>
+</head>
+<body>
+    <h2 style="text-align: center; color: #DB1430;" >
+        <a href="/">
+            Embedding Search
+        </a>
+    </h2>
+    <div class="container">
+        <div class="component" id="upload-component">
+            <h4 class="section-font">Datasets</h4>
+            <form action = "/success" method = "post" enctype="multipart/form-data">  
+            <div id="body-upload-component">
+                <div class="item-upload">
+                        <div>Vectors</div>
+                        <button type="button" onclick="document.getElementById('emb_file').click();">
+                            {{emb_name}}
+                        </button>
+                        <input type="file" name="emb_file" id="emb_file" style="display: none;" />  
+                </div> 
+                <div class="item-upload">
+                    <div>Metadata</div>
+                        <button type="button" onclick="document.getElementById('meta_file').click();">
+                            {{meta_name}}
+                        </button> 
+                        <input type="file" name="meta_file" id="meta_file" style="display: none;" /> 
+                </div>
+            </div>
+            <div>
+                <input type="submit" class="btn" value="Upload">
+            </div>
+            </form>
+        </div>
+        <div id="search-container" class="component">
+            <div id="search-component">
+                <div class="item-search">
+                    <div class="text-item-search section-font">
+                        <label>Query : </label>
+                        <input type="text" list="mylist" class="input-item-search" spellcheck="false" id="src_name" name="search">
+                        <datalist id="mylist">
+                            {% for name in name_dict[types[0]] %}
+                            <option>{{name}}</option>
+                            {% endfor %}
+                        </datalist>
+                    </div>
+                    <div class="select-item-search">
+                        <select id="query_type" class="mdb-select md-form colorful-select dropdown-primary">
+                            {% for type in types %}
+                            <option value={{type}}>{{type}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="item-search">
+                    <div class="text-item-search section-font">
+                        <label>Target : </label>
+                        <input id="num_return" type="text" class="input-item-search" name="search">
+                    </div>
+                    <div class="select-item-search">
+                        <select id="target_type">
+                            {% for type in types %}
+                            <option value={{type}}>{{type}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <button class="btn" id="search" style="width: 100%;">Search </button>
+                </div>
+            </div>
+            <div id="result-component">
+                <img id="loading" src="https://media.giphy.com/media/s4KqhlPU9Ypnq/giphy.gif">
+                <div id="result">
+                <h3 style="text-align: center;color: #999; margin-top: 50%;">No results</h3>
+                </div>
+            </div>
+    </div>
+    <!-- </div> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+    	$('input[type=file]').change(function(e) {
+    		var fileName = e.target.files[0].name;
+    		$(this).parent().find('button').text(fileName);
+        })
+        $(document).ready(function() {
+$('.mdb-select').materialSelect();
+});
+    </script>
+    <script src="/static/search.js"></script>
+    <script>
+        function myFunction() {
+            var query_type = document.getElementById("query_type").value;
+            // console.log(query_type)
+            var mylist = document.getElementById("mylist");
+            var namedict = '{{ name_dict | tojson }}';
+            var a = JSON.parse(namedict);
+            var namelist = a[query_type];
+            console.log(namelist);
+            console.log(namedict);
+
+            var x = '';
+            for (i = 0; i < namelist.length; i++) {
+                // console.log(namelist[i])
+                x += ('<option>' + namelist[i]+ '</option>');
+            }
+            mylist.innerHTML = x;
+        }
+    </script>
+</body>
+</html>

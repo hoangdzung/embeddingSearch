@@ -11,7 +11,8 @@ query_machine = QueryMachine()
 
 @app.route('/')  
 def upload():  
-    return render_template("file_upload_form.html")  
+    # return render_template("file_upload_form.html")
+    return render_template("demo.html", meta_name = "Choose file",emb_name = "Choose file",types = ["Empty"],name_dict = [])  
  
 @app.route('/success', methods = ['POST'])  
 def success():  
@@ -31,7 +32,7 @@ def success():
 
         query_machine.update_data(embeddings, names, types)
         print(list(set(types)))
-        return render_template("success.html", meta_name = meta_f.filename, emb_name = emb_f.filename, types = list(set(types)), name_dict = name_dict)  
+        return render_template("demo.html", meta_name = meta_f.filename, emb_name = emb_f.filename, types = list(set(types)), name_dict = name_dict)  
 
 @app.route("/api/search", methods = ["GET"])
 def search():
