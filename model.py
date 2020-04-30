@@ -20,15 +20,17 @@ class QueryMachine():
         target_embeddings = self.embeddings[self.types==target_type]
         src_names = self.names[self.types==src_type]
         src_embeddings = self.embeddings[self.types==src_type]
-
-        assert src_name in src_names 
-        src_embedding = src_embeddings[src_names==src_name][0]
-        print(src_embedding)
-        distances = ((target_embeddings-src_embedding)**2).sum(1)
-        print(distances)
-        neareast_indexes = np.argpartition(distances, -k)[-k:]
-        print(neareast_indexes)
-        sorted_nearest_indexes = neareast_indexes[np.argsort(distances[neareast_indexes])]
+        try:
+            assert src_name in src_names 
+            src_embedding = src_embeddings[src_names==src_name][0]
+            print(src_embedding)
+            distances = ((target_embeddings-src_embedding)**2).sum(1)
+            print(distances)
+            neareast_indexes = np.argpartition(distances, -k)[-k:]
+            print(neareast_indexes)
+            sorted_nearest_indexes = neareast_indexes[np.argsort(distances[neareast_indexes])]
+        except:
+            return []
 
         return list(target_names[sorted_nearest_indexes])
 

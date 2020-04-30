@@ -109,6 +109,8 @@ button, .btn {
     /* border-radius: 3px; */
     margin: 4px 0px;
     cursor: pointer;
+    font-family: inherit;
+    color: #666;
 }
 
 input[type=submit], .btn {
@@ -116,6 +118,7 @@ input[type=submit], .btn {
     color: white;
     border-radius: none;
     padding: 7px 20px;
+    font-weight: 600;
 }
   
 #upload-component {
@@ -166,22 +169,12 @@ h4 {
     justify-content: center; */
 }
 
-.item-search div {
-    /* padding: 10px 10px; */
-    /* display: flex; */
-    /* align-items: center; */
-    /* justify-content: center; */
-    padding-bottom: 2px;
-    border-bottom: 1px solid #dddddd;
-}
-
 select {
     border: none;
-   
 }
 
 .select-item-search {
-    text-align: center;
+    /* text-align: center; */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -248,3 +241,129 @@ label {
 input::-webkit-calendar-picker-indicator {
     display: none;
   }
+
+  .sel {
+    /* border-bottom: 4px solid rgba(0, 0, 0, 0.3); */
+    border-bottom: none;
+  }
+
+  .item-search .text-item-search, .item-search .select-item-search {
+    /* padding: 10px 10px; */
+    /* display: flex; */
+    /* align-items: center; */
+    /* justify-content: center; */
+    padding-bottom: 2px;
+    border-bottom: 1px solid #dddddd;
+}
+
+
+
+  /* ///  DECORATION CSS ///  */
+.cont_select_center {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-top: -30px;
+    margin-left: -150px;
+  }
+  
+  .cont_heg_50 {
+    position: absolute;
+    height: 50%;
+    left: 0;
+    top: 0;
+    width: 100%;
+    background-color: #fd7b52;
+  }
+  
+  /* ///  END DECORATION CSS  ///  */
+  .icon_select_mate {
+    position: absolute;
+    top: 0;
+    right: 2%;
+    font-size: 16px;
+    height: 22px;
+    transition: all 275ms;
+  }
+  
+  .select_mate {
+    position: relative;
+    float: left;
+    /* min-width: 300px; */
+    width:  100%;
+    /* min-height: 60px; */
+    /* font-family: 'Roboto'; */
+    color: #777;
+    font-weight: 300;
+    background-color: #fff;
+    /* box-shadow: 1px 2px 10px -2px rgba(0, 0, 0, 0.3); */
+    border-radius: 3px;
+    transition: all 375ms ease-in-out;
+    /* Oculto el elemento select */
+    border: none;
+}
+  .select_mate select {
+    position: absolute;
+    overflow: hidden;
+    height: 0px;
+    opacity: 0;
+    z-index: -1;
+  }
+  
+  .cont_list_select_mate {
+    position: relative;
+    float: left;
+    width: 100%;
+  }
+  
+  .cont_select_int {
+    position: absolute;
+    left: 0px;
+    top: 10px;
+    z-index: 999;
+    overflow: hidden;
+    height: 0px;
+    width: 100%;
+    background-color: #fff;
+    padding: 0px;
+    margin-bottom: 0px;
+    margin-top: 0px;
+    border-radius: 0px 0px 3px 3px;
+    box-shadow: 1px 4px 10px -2px rgba(0, 0, 0, 0.2);
+    transition: all 375ms ease-in-out;
+  }
+  .cont_select_int li {
+    position: relative;
+    float: left;
+    width: 100%;
+    border-bottom: 1px solid #E0E0E0;
+    background-color: #F5F5F5;
+    list-style-type: none;
+    padding: 10px 2%;
+    margin: 0px;
+    transition: all 275ms ease-in-out;
+    display: block;
+    cursor: pointer;
+    text-transform: capitalize;
+  }
+  .cont_select_int li:last-child {
+    border-radius: 3px;
+    border-bottom: 0px;
+  }
+  .cont_select_int li:hover {
+    background-color: #EEEEEE;
+  }
+  .cont_select_int .active {
+    background-color: #EEEEEE;
+  }
+  
+  /* etiqueta <p> con la opcion selecionada  */
+  .selecionado_opcion {
+    padding: 0px 2%;
+    width: 96%;
+    display: block;
+    margin: 0px;
+    cursor: pointer;
+    text-transform: capitalize;
+  }
+  
