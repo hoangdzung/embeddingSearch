@@ -375,4 +375,16 @@ input::-webkit-calendar-picker-indicator {
     cursor: pointer;
     text-transform: capitalize;
   }
+
+#num-of-keywords {
+  border-bottom: 1px solid #dddddd;
+  padding: 2px;
+  width: 20px;
+  text-align: center;
+  margin-left: 2px;
+}
+
+span {
+    color: #888;
+}
   
