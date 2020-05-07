@@ -13,7 +13,16 @@ query_machine = QueryMachine()
 def upload():  
     # return render_template("file_upload_form.html")
     return render_template("demo.html", meta_name = "Choose file",emb_name = "Choose file",types = ["Empty"],name_dict = [])  
- 
+
+def clean(string):
+    to_save = ""
+    for char in string:
+        if not char.isalpha():
+            if char != " ":
+                continue
+        to_save += char
+    return to_save
+
 @app.route('/success', methods = ['POST'])  
 def success():  
     if request.method == 'POST':  
@@ -23,8 +32,8 @@ def success():
         types, names = get_meta_from_tsv("temp_" + meta_f.filename)
         name_dict = defaultdict(list)
         for i in range(types.shape[0]):
-            name_dict[types[i]].append(names[i])
-
+            name_dict[types[i]].append(clean(names[i]))
+            
         emb_f = request.files['emb_file']  
         assert emb_f.filename.endswith('tsv')
         emb_f.save("temp_" + emb_f.filename)  
