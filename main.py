@@ -15,13 +15,14 @@ def upload():
     return render_template("demo.html", meta_name = "Choose file",emb_name = "Choose file",types = ["Empty"],name_dict = [])  
 
 def clean(string):
-    to_save = ""
-    for char in string:
-        if not char.isalpha():
-            if char != " ":
-                continue
-        to_save += char
-    return to_save
+    return string.replace('"','\\"')
+    # to_save = ""
+    # for char in string:
+    #     if not char.isalpha():
+    #         if char != " ":
+    #             continue
+    #     to_save += char
+    # return to_save
 
 @app.route('/success', methods = ['POST'])  
 def success():  
@@ -41,12 +42,13 @@ def success():
 
         query_machine.update_data(embeddings, names, types)
         print(list(set(types)))
+        # name_dict = json.loads(json.dumps(name_dict))
         return render_template("demo.html", meta_name = meta_f.filename, emb_name = emb_f.filename, types = list(set(types)), name_dict = name_dict)  
 
 @app.route("/api/search", methods = ["GET"])
 def search():
     src_type = request.args.get('src_type')
-    src_name = request.args.get('src_name')
+    src_name = request.args.get('src_name',type=str)
     target_type = request.args.get('target_type')
     k = int(request.args.get('k'))
     print(src_type, src_name, target_type, k)

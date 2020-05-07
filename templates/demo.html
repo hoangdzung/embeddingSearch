@@ -144,8 +144,21 @@
                 // console.log(query_type)
                 var mylist = document.getElementById("mylist");
                 var namedict = '{{ name_dict | tojson }}';
-                var a = JSON.parse(namedict);
+                var a;
+                console.log('name dict',namedict);
+                try {
+                    a = JSON.parse(namedict);
+                } catch (e) {
+                    console.log(e);
+                   console.log("a token",namedict.substring(71950,71970));
+                }
+                // a = JSON.parse(a);
+                // var a = JSON.parse(namedict);
+
+                console.log("a",a);
+                console.log("query type",query_type);
                 var namelist = a[query_type];
+                console.log("namelist\n",namelist);
                 // console.log(namelist);
                 // console.log(namedict);
 

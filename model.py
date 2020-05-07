@@ -11,8 +11,9 @@ class QueryMachine():
         self.names = names 
         self.types = types 
 
-    def search(self, src_type, src_name, target_type, k=10):
+    def search(self, src_type, src_name, target_type, k=5):
         print("k",k)
+        print("src name",src_name)
         print(src_type, src_name, target_type)
         if self.embeddings is None:
             return ['Not init yet']
@@ -24,12 +25,9 @@ class QueryMachine():
         try:
             assert src_name in src_names 
             src_embedding = src_embeddings[src_names==src_name][0]
-            print(src_embedding)
-            distances = ((target_embeddings-src_embedding)**2).sum(1)
-            print(distances)
+            distances = -((target_embeddings-src_embedding)**2).sum(1)
             neareast_indexes = np.argpartition(distances, -k)[-k:]
-            print(neareast_indexes)
-            sorted_nearest_indexes = neareast_indexes[np.argsort(distances[neareast_indexes])]
+            sorted_nearest_indexes = neareast_indexes[np.argsort(-distances[neareast_indexes])]
         except:
             return []
 
