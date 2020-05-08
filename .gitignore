@@ -4,7 +4,7 @@ __pycache__/
 *$py.class
 
 .metals/
-.tsv
+*.tsv
 
 # C extensions
 *.so

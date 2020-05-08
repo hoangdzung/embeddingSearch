@@ -15,7 +15,7 @@ def upload():
     return render_template("demo.html", meta_name = "Choose file",emb_name = "Choose file",types = ["Empty"],name_dict = [])  
 
 def clean(string):
-    return string.replace('"','\"')
+    return string.replace('"','\\"')
     # to_save = ""
     # for char in string:
     #     if not char.isalpha():
