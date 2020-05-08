@@ -7,10 +7,10 @@ $(function () {
         console.log(document.getElementById('src_name').value)
         console.log(document.getElementById('target_type').value)
         $.ajax({
-            url: '/api/search?src_type=' + document.getElementById('query_type').value +
-             '&src_name=' + document.getElementById('src_name').value + 
-             '&target_type=' + document.getElementById('target_type').value +
-             '&k=' + document.getElementById('num-of-keywords').value,
+            url: '/api/search/' + document.getElementById('query_type').value +
+             '/' + document.getElementById('src_name').value + 
+             '/' + document.getElementById('target_type').value +
+             '/' + document.getElementById('num-of-keywords').value,
             //  '&k=10' + document.getElementById('num_return').value,
             success: function (data) {
                 console.log(data)

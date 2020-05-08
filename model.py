@@ -12,7 +12,6 @@ class QueryMachine():
         self.types = types 
 
     def search(self, src_type, src_name, target_type, k=5):
-        print("k",k)
         print("src name",src_name)
         print(src_type, src_name, target_type)
         if self.embeddings is None:
