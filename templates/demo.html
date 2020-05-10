@@ -26,28 +26,45 @@
             Embedding Search
         </a>
     </h2>
-    <div class="container">
+    {% if (datasets|length) > 2 %}
+        <div class="container" style="margin: 0 30px;">
+    {% else %}
+        <div class="container">
+    {% endif %}
         <div class="component" id="upload-component">
-            <h4 class="section-font">Datasets</h4>
-            <form action="/success" method="post" enctype="multipart/form-data">
-                <div id="body-upload-component">
-                    <div class="item-upload">
-                        <div>Vectors</div>
-                        <button type="button" onclick="document.getElementById('emb_file').click();">
-                            {{emb_name}}
-                        </button>
-                        <input type="file" name="emb_file" id="emb_file" style="display: none;" />
-                    </div>
-                    <div class="item-upload">
-                        <div>Metadata</div>
-                        <button type="button" onclick="document.getElementById('meta_file').click();">
-                            {{meta_name}}
-                        </button>
-                        <input type="file" name="meta_file" id="meta_file" style="display: none;" />
-                    </div>
+            <div style="margin-bottom: 20px;">
+                <h4 class="section-font">
+                    Datasets
+                </h4>
+                <div>
+                     <input type="text" class="number-input" id="num-of-datasets" onchange="changeNumDatasets()" value='{{ datasets | length}}'>
                 </div>
+            </div>
+            <form action="/success" method="post" enctype="multipart/form-data">
+                <div id="listModels">
+                    {% for model in datasets %}
+                    <div class="upload-model">
+                        <h4 class="header">Model {{ loop.index }}</h4>
+                        <div class="content">
+                            <div class="item-upload">
+                                <div>Vectors</div>
+                                <button type="button" class="btn-choose-file" onclick="document.getElementById('emb_file_{{model.id}}').click();">{{model.embFile}}</button>
+                                <input  type="file" name="emb_file_{{model.id}}" id="emb_file_{{model.id}}" style="display: none;" />
+                            </div>
+                            <div class="item-upload">
+                                <div>Metadata</div>
+                                <button type="button" class="btn-choose-file" onclick="document.getElementById('meta_file_{{model.id}}').click();">{{model.metaFile}}</button>
+                                <input type="file" name="meta_file_{{model.id}}" id="meta_file_{{model.id}}" style="display: none;" />
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+
                 <div>
                     <input type="submit" class="btn" value="Upload">
+                    <input type="hidden" name="numDatasets" id="numDatasets" value="1">
                 </div>
             </form>
         </div>
@@ -113,31 +130,71 @@
                 </div>
             </div>
             <div id="result-component">
-                <div style="text-align: right;">
-                    <div style="padding: 0;">
+                <div>
+                    <!-- <div style="font-size: 0.95em;margin: 0;">
+                        NEAREST KEYWORDS
+                    </div> -->
+                    <div style="padding: 0;  text-align: right;">
                         <span>Number of results</span>
-                        <span><input type="text" id="num-of-keywords" value="5"></span>
+                        <span><input type="text" class="number-input" id="num-of-keywords" value="5"></span>
                     </div>
                 </div>
                 <div id="loading">
                     <img  src="https://media.giphy.com/media/s4KqhlPU9Ypnq/giphy.gif" width="30px">
                 </div>
                 <div id="result">
-                    <h3 style="text-align: center;color: #999; margin-top: 20%;font-weight: 400;">No results</h3>
+                    <!-- <h3 style="text-align: center;color: #999; margin-top: 20%;font-weight: 400;">No results</h3> -->
+                    <div style="font-size: 0.95em; text-align: center;margin: 10px 0 30px 0;">
+                        NEAREST KEYWORDS
+                        </div>
+                    {% if (datasets|length) > 2 %}
+                    <div id="content-result">
+                    {% elif (datasets|length) == 2 %}
+                    <div style="display: grid;grid-template-columns: repeat(2,1fr);grid-gap: 20px;">
+                    {% else %}
+                    <div style="margin: 0 25%;" >
+                    {% endif %}
+                        {% for model in datasets %}
+                        <div class="result-model" id="result-{{model.id}}">
+                            <div class="header">Model {{ loop.index }} <span>({{model.embFile}})</span></div>
+                            <div class="content">
+                                <!-- <div class="item-keyword">
+                                    <div style="padding: 5px 5px 0px 0">
+                                        <img src="http://icons.iconarchive.com/icons/double-j-design/childish/128/Key-icon.png"
+                                            width="18px"
+                                            height="18px"
+                                        >
+                                    </div>
+                                    <div style="padding: 4px;">binz</div>
+                                </div> -->
+                                <h3 style="text-align: center;color: #999; margin: 30% 0;font-weight: 400;">No results</h3>
+                            </div>
+                        </div> 
+                        {% endfor %}
+
+                        
+                        
+                    </div>
+                        
                 </div>
             </div>
         </div>
         <!-- </div> -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script> -->
+        <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script> -->
+        <!-- <script src="https://d3js.org/d3.v5.min.js"></script> -->
+        <script>
+            var datasets = JSON.parse('{{ datasets | tojson }}');
+        </script>
+        <script src="/static/search.js"></script>
         <script type="text/javascript">
             $('input[type=file]').change(function (e) {
                 var fileName = e.target.files[0].name;
                 $(this).parent().find('button').text(fileName);
+                // updateDataset();
             })
         </script>
-        <script src="/static/search.js"></script>
         <script>
             function suggestQuery() {
                 var query_type = document.getElementById("query_type").value;
