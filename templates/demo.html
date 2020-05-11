@@ -32,7 +32,7 @@
         <div class="container">
     {% endif %}
         <div class="component" id="upload-component">
-            <div style="margin-bottom: 20px;">
+            <div style="margin: 30px 0 20px 0;">
                 <h4 class="section-font">
                     Datasets
                 </h4>
@@ -41,25 +41,29 @@
                 </div>
             </div>
             <form action="/success" method="post" enctype="multipart/form-data">
-                <div id="listModels">
-                    {% for model in datasets %}
-                    <div class="upload-model">
-                        <h4 class="header">Model {{ loop.index }}</h4>
-                        <div class="content">
-                            <div class="item-upload">
-                                <div>Vectors</div>
-                                <button type="button" class="btn-choose-file" onclick="document.getElementById('emb_file_{{model.id}}').click();">{{model.embFile}}</button>
-                                <input  type="file" name="emb_file_{{model.id}}" id="emb_file_{{model.id}}" style="display: none;" />
-                            </div>
-                            <div class="item-upload">
-                                <div>Metadata</div>
-                                <button type="button" class="btn-choose-file" onclick="document.getElementById('meta_file_{{model.id}}').click();">{{model.metaFile}}</button>
-                                <input type="file" name="meta_file_{{model.id}}" id="meta_file_{{model.id}}" style="display: none;" />
+                <!-- <div id="container-models" onmouseover="hoverDatasets(true)" onmouseout="hoverDatasets(false)"> -->
+                <div id="container-models">
+                    <div id="listModels">
+                        {% for model in datasets %}
+                        <div class="upload-model">
+                            <h4 class="header">Model {{ loop.index }}</h4>
+                            <div class="content">
+                                <div class="item-upload">
+                                    <div>Vectors</div>
+                                    <button type="button" class="btn-choose-file" onclick="document.getElementById('emb_file_{{model.id}}').click();">{{model.embFile}}</button>
+                                    <input  type="file" name="emb_file_{{model.id}}" id="emb_file_{{model.id}}" style="display: none;" />
+                                </div>
+                                <div class="item-upload">
+                                    <div>Metadata</div>
+                                    <button type="button" class="btn-choose-file" onclick="document.getElementById('meta_file_{{model.id}}').click();">{{model.metaFile}}</button>
+                                    <input type="file" name="meta_file_{{model.id}}" id="meta_file_{{model.id}}" style="display: none;" />
+                                </div>
                             </div>
                         </div>
+                        {% endfor %}
                     </div>
-                    {% endfor %}
                 </div>
+
 
 
                 <div>
@@ -193,7 +197,15 @@
                 var fileName = e.target.files[0].name;
                 $(this).parent().find('button').text(fileName);
                 // updateDataset();
-            })
+            });
+            function hoverDatasets(isHover) {
+                // let uModels = document.getElementsByClassName("upload-model");
+                let numDatasets = parseInt(document.getElementById("num-of-datasets").value);
+                let cModels = document.getElementById("container-models");
+                // uModels[uModels.length-1].style.marginBottom = numDatasets > 1 ? '0' : '30px' ;
+                // cModels.style.overflow = numDatasets == 2 ? "hidden" : "auto";
+                cModels.style.padding = numDatasets > 2 & isHover ? '0 25px 0 30px' : '0 30px'; 
+            }
         </script>
         <script>
             function suggestQuery() {
